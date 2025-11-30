@@ -8,41 +8,93 @@ test.describe("Login Functionality", () => {
         loginPage = new LoginPage(page);
     });
 
-    test("TC001: customer1 can login successfully", async () => {
-        await loginPage.login("customer1", "password");
+    test(
+        "User logs in successfully with customer1 credentials",
+        {
+            annotation: [
+                {
+                    type: "test-id",
+                    description:
+                        "TC001: Login successfully with valid customer1 credentials",
+                },
+            ],
+        },
+        async () => {
+            await loginPage.login("customer1", "password");
+            await loginPage.expectLoginSuccess();
+        }
+    );
 
-        await loginPage.expectLoginSuccess();
-    });
+    test(
+        "User logs in successfully with customer2 credentials",
+        {
+            annotation: [
+                {
+                    type: "test-id",
+                    description:
+                        "TC002: Login successfully with valid customer2 credentials",
+                },
+            ],
+        },
+        async () => {
+            await loginPage.login("customer2", "password");
+            await loginPage.expectLoginSuccess();
+        }
+    );
 
-    test("TC002: customer2 can login successfully", async () => {
-        await loginPage.login("customer2", "password");
-        await loginPage.expectLoginSuccess();
-    });
+    test(
+        "User cannot log in using an invalid username",
+        {
+            annotation: [
+                {
+                    type: "test-id",
+                    description: "TC003: Login fails with invalid username",
+                },
+            ],
+        },
+        async () => {
+            await loginPage.goto();
+            await loginPage.fillUsername("invaliduser");
+            await loginPage.fillPassword("password");
+            await loginPage.submit();
+            await loginPage.expectInvalidCredentialError();
+        }
+    );
 
-    test("TC003: login fails with invalid username", async () => {
-        await loginPage.goto(); 
-        await loginPage.fillUsername("invaliduser");
-        await loginPage.fillPassword("password");
+    test(
+        "User cannot log in using an incorrect password",
+        {
+            annotation: [
+                {
+                    type: "test-id",
+                    description: "TC004: Login fails with wrong password",
+                },
+            ],
+        },
+        async () => {
+            await loginPage.goto();
+            await loginPage.fillUsername("customer1");
+            await loginPage.fillPassword("wrongpassword");
+            await loginPage.submit();
+            await loginPage.expectInvalidCredentialError();
+        }
+    );
 
-        await loginPage.submit();
-
-        await loginPage.expectInvalidCredentialError();
-    });
-
-    test("TC004: login fails with invalid password", async () => {
-        await loginPage.goto();
-        await loginPage.fillUsername("customer1");
-        await loginPage.fillPassword("wrongpassword");
-
-        await loginPage.submit();
-
-        await loginPage.expectInvalidCredentialError();
-    });
-
-    test("TC005: login fails with empty credentials", async () => {
-        await loginPage.goto();
-        await loginPage.submit();
-
-        await loginPage.expectValidationError();
-    });
+    test(
+        "User cannot log in when submitting empty credentials",
+        {
+            annotation: [
+                {
+                    type: "test-id",
+                    description:
+                        "TC005: Login fails with empty username and password",
+                },
+            ],
+        },
+        async () => {
+            await loginPage.goto();
+            await loginPage.submit();
+            await loginPage.expectValidationError();
+        }
+    );
 });
