@@ -79,24 +79,7 @@ export class CheckoutPage {
         await expect(this.errorMassage).toBeHidden();
     }
 
-    async expectAllRequiredErrors() {
-        await expect(this.errorMassage).toBeVisible();
-        await expect(this.errorMassage).toContainText(
-            "First name is required."
-        );
-    }
-
-    async expectEmailDomainError() {
-        await expect(this.errorMassage).toBeVisible();
-        await expect(this.errorMassage).toContainText(
-            "We support only email address with domain mailinator.com"
-        );
-    }
-
-    async expectZipFormatError() {
-        await expect(this.errorMassage).toBeVisible();
-        await expect(this.errorMassage).toContainText(
-            "We support only 5 digits zip code"
-        );
+    async getErrorMessageText() {
+        return await this.errorMassage.textContent();
     }
 }

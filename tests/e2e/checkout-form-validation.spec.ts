@@ -1,4 +1,4 @@
-import { test } from "../fixtures/custom-test";
+import { expect, test } from "../fixtures/custom-test";
 import { StorePage } from "../pages/StorePage";
 import { CartPage } from "../pages/CartPage";
 import { CheckoutPage } from "../pages/CheckoutPage";
@@ -51,7 +51,10 @@ test.describe("Checkout Form Validation", () => {
 
         await checkout.submit();
 
-        await checkout.expectEmailDomainError();
+        const errorMessage = await checkout.getErrorMessageText();
+        expect(errorMessage).toContain(
+            "We support only email address with domain mailinator.com."
+        );
     });
 
     test("TC013: Checkout with invalid zip format", async () => {
@@ -70,7 +73,8 @@ test.describe("Checkout Form Validation", () => {
 
         await checkout.submit();
 
-        await checkout.expectZipFormatError();
+        const errorMessage = await checkout.getErrorMessageText();
+        expect(errorMessage).toContain("We support only 5 digits zip code.");
     });
 
     test("TC014: Checkout with empty required fields", async () => {
@@ -82,7 +86,8 @@ test.describe("Checkout Form Validation", () => {
 
         await checkout.submit();
 
-        await checkout.expectAllRequiredErrors();
+        const errorMessage = await checkout.getErrorMessageText();
+        expect(errorMessage).toContain("First name is required.");
     });
 
     test("TC015: Checkout with zip code containing letters", async () => {
@@ -101,6 +106,7 @@ test.describe("Checkout Form Validation", () => {
 
         await checkout.submit();
 
-        await checkout.expectZipFormatError();
+        const errorMessage = await checkout.getErrorMessageText();
+        expect(errorMessage).toContain("We support only 5 digits zip code.");
     });
 });
