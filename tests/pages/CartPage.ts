@@ -85,4 +85,13 @@ export class CartPage {
             this.emptyCartContainer.or(this.page.getByText(/No item in cart/i))
         ).toBeVisible();
     }
+
+    checkoutButton(): Locator {
+        return this.page.getByTestId("checkout-button");
+    }
+
+    async proceedToCheckout() {
+        await this.checkoutButton().click();
+        await expect(this.page.getByTestId("check-out-form")).toBeVisible();
+    }
 }
