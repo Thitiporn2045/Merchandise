@@ -42,7 +42,7 @@ test.describe("Shopping Cart Management", () => {
                 {
                     type: "test-id",
                     description:
-                        "TC006.1: Store displays full product list from mock",
+                        "TC006-1: Store displays full product list from mock",
                 },
             ],
         },
@@ -64,7 +64,7 @@ test.describe("Shopping Cart Management", () => {
                 {
                     type: "test-id",
                     description:
-                        "TC006.2: User can navigate between product pages",
+                        "TC006-2: User can navigate between product pages",
                 },
             ],
         },
@@ -84,7 +84,7 @@ test.describe("Shopping Cart Management", () => {
             annotation: [
                 {
                     type: "test-id",
-                    description: "TC006.3: User can log out using store menu",
+                    description: "TC006-3: User can log out using store menu",
                 },
             ],
         },
